@@ -4,7 +4,9 @@ LexRich 是一个基于预训练词向量的语义场丰富度分析器：给定
 
 快速运行（生成 Markdown 报告）：
 
-- `python3.14 -m lexrich.cli texts/psy.txt --config config.yaml --markdown > outputs/psy.md`
+-  在 GloVe 的官方网站 https://nlp.stanford.edu/projects/glove/ 下载 glove.6B.zip 并解压，将得到的 glove.6B.300d.txt 放置到根目录下的 data/ 文件夹（需要创建）
+-  创建文件夹 texts/， 在里面放入需要分析的 txt 文件
+-  run `python3.14 -m lexrich.cli texts/xxx.txt --config config.yaml --markdown > outputs/xxx.md`
 
 核心配置入口：`config.yaml`（或同结构的 JSON），聚类方式、语义场归类方式、指标集合及参数都可在此切换。
 
