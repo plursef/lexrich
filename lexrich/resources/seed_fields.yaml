@@ -1,0 +1,8 @@
+emotion:
+  seeds: [happy, sad, angry, fear, delighted, ashamed, anxious]
+evaluation:
+  seeds: [good, bad, excellent, awful, fine, admirable, disgraceful]
+social_class:
+  seeds: [gentleman, lady, noble, servant, poor, wealthy, fortune]
+environment:
+  seeds: [rain, wind, river, forest, garden, sky, sunshine, landscape]
