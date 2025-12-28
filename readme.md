@@ -17,6 +17,18 @@ LexRich 是一个基于预训练词向量的语义场丰富度分析器：给定
 - social_class：覆盖度约 11.36/10k，type 16，熵 3.17，支配度 0.33，阶层相关词有一定多样性。
 - environment：覆盖度约 5058/10k，type 534，但支配度高达 0.97（熵 0.31），表明环境相关词大量集中在少数簇，需关注是否因词表扩展或文本主题导致的偏置。
 
+### 方法核心：seeds 决定统计效果
+
+本方法的灵敏度和可解释性高度取决于 seed 词表的设计：
+
+- 覆盖面：seed 过窄会导致 FieldCoverage 偏低、Dominance 偏高；seed 过宽或语义漂移会让 ClusterEntropy 偏低且解释力下降。
+- 粒度与平衡：field 内子语义若覆盖不均，簇分布会失衡；跨 field 的模糊种子会造成“抢词”，使 assign_mode=cluster 时归类不稳定。
+
+建议：
+
+- 先人工审阅与精简 [lexrich/resources/seed_fields.yaml](lexrich/resources/seed_fields.yaml)，每个 field 确保 3–5 个高置信度、互补的种子。
+- 开启 debug 检查扩展 lexicon 与高频簇，观察语义漂移或场域串扰，再迭代 seeds。
+
 AI Prompt for project design:
 
 下面是一份“实现向导级”的设计文档（偏工程规格书），我需要你照着搭骨架逐步填充实现。为了满足我说的“三个决策都实现并放进 config 可调”，你需要把**聚类方式 / 语义场归类方式 / 指标集合**都做成可切换策略，并且所有关键参数都集中在 `config.py`（或 YAML/JSON 配置文件）。
