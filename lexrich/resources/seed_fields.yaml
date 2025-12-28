@@ -1,68 +1,116 @@
 emotion:
   seeds:
-    # 基本负面情绪
-    - anger
-    - fear
-    - sadness
-    - disgust
-    # 基本正面情绪
-    
-    - happiness
-    - joy
+    # 强烈负面
+    - rage
+    - dread
+    - despair
+    - revulsion
 
-    # 高唤醒情绪（兴奋 / 胜利 / 恐惧）
-    - terror
-    - excitement
+    # 强烈正面
+    - elation
+    - delight
 
-    # 低唤醒 / 平静类
-    - calm
-    - contentment
+    # 高唤醒
+    - panic
+    - exhilaration
 
-    # 社会 / 自我意识情绪（心理学 & 文学高频）
+    # 低唤醒 / 内敛
+    - serenity
+    - resignation
+    - melancholy
+
+    # 自我意识 / 社会性情绪
     - pride
-    - shame
-    - jealousy
+    - humiliation
     - envy
-    - love
+    - longing
+    - affection
 
-evaluation:
+character_evaluation:
   seeds:
-    # 正向评价
-    - good
-    - excellent
-    - admirable
+    # 正面人格 / 气质
+    - virtuous
+    - honorable
+    - dignified
+    - compassionate
+    - refined
 
-    # 负向评价
-    - bad
-    - awful
-    - disgraceful
+    # 负面人格 / 道德判断
+    - cruel
+    - petty
+    - vulgar
+    - deceitful
+    - corrupt
 
-    # 中性 / 强度型评价（学术文本常见）
-    - fine
-    - important
-    - serious
+    # 模糊 / 复杂（文学非常常见）
+    - ambiguous
+    - conflicted
+    - restrained
+    - calculating
+    - fragile
 
-social_class:
+social_class: 
   seeds:
-    - aristocrat
-    - noble
-    - gentleman
-    - lady
-    - servant
-    - poor
-    - wealthy
-    - fortune
+    # 上层 / 精英
+    - aristocracy
+    - nobility
+    - landed
+    - elite
+    - privilege
+
+    # 中产 / 体面阶层
+    - bourgeois
+    - respectable
+    - professional
+
+    # 底层 / 边缘
+    - laborer
+    - peasant
+    - destitute
+    - impoverished
+    - marginal
+
+    # 财富与继承
     - inheritance
+    - legacy
+    - fortune
+    - property
 
 environment:
   seeds:
+    # 天气 / 时间
     - rain
-    - wind
-    - river
+    - fog
+    - storm
+    - dusk
+    - night
+
+    # 自然景观
     - forest
-    - garden
-    - sky
-    - sunshine
-    - landscape
-    - mountain
+    - river
     - sea
+    - fields
+    - hills
+
+    # 城市 / 建筑
+    - street
+    - alley
+    - neighborhood
+    - building
+    - room
+    - corridor
+    - courtyard
+
+    # 社会化空间（非常重要）
+    - market
+    - factory
+    - church
+    - school
+    - hospital
+
+    # 氛围 / 感知
+    - silence
+    - darkness
+    - crowd
+    - emptiness
+    - decay

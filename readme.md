@@ -1,6 +1,25 @@
-下面是一份“实现向导级”的设计文档（偏工程规格书），我需要你照着搭骨架逐步填充实现。为了满足我说的“三个决策都实现并放进 config 可调”，你需要把**聚类方式 / 语义场归类方式 / 指标集合**都做成可切换策略，并且所有关键参数都集中在 `config.py`（或 YAML/JSON 配置文件）。
+## 使用说明 & 项目简介
 
-usage: python3.14 -m lexrich.cli texts/tess.txt --config config.yaml --markdown > outputs/tess.md
+LexRich 是一个基于预训练词向量的语义场丰富度分析器：给定英文文本，按照配置好的语义场与分组策略，输出覆盖度、类型数、簇熵、支配度等可插拔指标，支持阈值扫网格调参和 debug 导出。
+
+快速运行（生成 Markdown 报告）：
+
+- `python3.14 -m lexrich.cli texts/psy.txt --config config.yaml --markdown > outputs/psy.md`
+
+核心配置入口：`config.yaml`（或同结构的 JSON），聚类方式、语义场归类方式、指标集合及参数都可在此切换。
+
+### 示例：Tess 文本的测量结果
+
+最新一次在文本 `texts/tess.txt` 上的运行输出见 [outputs/tess.md](outputs/tess.md)。主要指标概览：
+
+- emotion：覆盖度约 43/10k，type 42，簇熵 ~3.81，支配度 0.27，说明情绪词分布较分散。
+- character_evaluation：覆盖度约 8.39/10k，type 13，熵 2.58，支配度 0.47，评价词集中度中等。
+- social_class：覆盖度约 11.36/10k，type 16，熵 3.17，支配度 0.33，阶层相关词有一定多样性。
+- environment：覆盖度约 5058/10k，type 534，但支配度高达 0.97（熵 0.31），表明环境相关词大量集中在少数簇，需关注是否因词表扩展或文本主题导致的偏置。
+
+AI Prompt for project design:
+
+下面是一份“实现向导级”的设计文档（偏工程规格书），我需要你照着搭骨架逐步填充实现。为了满足我说的“三个决策都实现并放进 config 可调”，你需要把**聚类方式 / 语义场归类方式 / 指标集合**都做成可切换策略，并且所有关键参数都集中在 `config.py`（或 YAML/JSON 配置文件）。
 
 ---
 
