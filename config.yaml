@@ -1,0 +1,39 @@
+preprocess:
+  lowercase: true
+  lemmatize: true
+  pos_tag: true
+  keep_pos: ["NOUN", "VERB", "ADJ", "ADV"]
+  remove_stopwords: true
+embedding:
+  model_type: "glove"
+  model_path: "data/glove.6B.300d.txt"
+  vector_dim: 300
+  oov_strategy: "skip"
+  normalize_vectors: true
+neighbor:
+  index_type: "exact"
+  top_k: 30
+  similarity: "cosine"
+grouping:
+  mode: "threshold_graph"
+  threshold: 0.55
+  min_freq: 2
+  max_vocab: 20000
+  graph_build: "topk_then_threshold"
+fields:
+  seed_path: "lexrich/resources/seed_fields.yaml"
+  expand_fields: true
+  expand_top_k: 50
+  expand_threshold: 0.55
+  assign_mode: "cluster"
+metrics:
+  enabled:
+    - "FieldCoveragePer10k"
+    - "FieldTypeCount"
+    - "ClusterEntropy"
+    - "Dominance"
+  params:
+    Dominance:
+      top_n: 1
+debug: true
+threshold_grid: [0.45, 0.55, 0.65]

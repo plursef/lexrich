@@ -1,5 +1,7 @@
 下面是一份“实现向导级”的设计文档（偏工程规格书），我需要你照着搭骨架逐步填充实现。为了满足我说的“三个决策都实现并放进 config 可调”，你需要把**聚类方式 / 语义场归类方式 / 指标集合**都做成可切换策略，并且所有关键参数都集中在 `config.py`（或 YAML/JSON 配置文件）。
 
+usage: python3.14 -m lexrich.cli texts/tess.txt --config config.yaml --markdown > outputs/tess.md
+
 ---
 
 # LexRich：基于 Word Embedding 的语义场“丰富度”分析器设计文档

@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lexrich"
+version = "0.1.0"
+description = "Lexical richness analyzer with embeddings"
+requires-python = ">=3.10"
+dependencies = []
+
+[tool.setuptools]
+packages = ["lexrich"]

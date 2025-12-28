@@ -1,8 +1,68 @@
 emotion:
-  seeds: [happy, sad, angry, fear, delighted, ashamed, anxious]
+  seeds:
+    # 基本负面情绪
+    - anger
+    - fear
+    - sadness
+    - disgust
+    # 基本正面情绪
+    
+    - happiness
+    - joy
+
+    # 高唤醒情绪（兴奋 / 胜利 / 恐惧）
+    - terror
+    - excitement
+
+    # 低唤醒 / 平静类
+    - calm
+    - contentment
+
+    # 社会 / 自我意识情绪（心理学 & 文学高频）
+    - pride
+    - shame
+    - jealousy
+    - envy
+    - love
+
 evaluation:
-  seeds: [good, bad, excellent, awful, fine, admirable, disgraceful]
+  seeds:
+    # 正向评价
+    - good
+    - excellent
+    - admirable
+
+    # 负向评价
+    - bad
+    - awful
+    - disgraceful
+
+    # 中性 / 强度型评价（学术文本常见）
+    - fine
+    - important
+    - serious
+
 social_class:
-  seeds: [gentleman, lady, noble, servant, poor, wealthy, fortune]
+  seeds:
+    - aristocrat
+    - noble
+    - gentleman
+    - lady
+    - servant
+    - poor
+    - wealthy
+    - fortune
+    - inheritance
+
 environment:
-  seeds: [rain, wind, river, forest, garden, sky, sunshine, landscape]
+  seeds:
+    - rain
+    - wind
+    - river
+    - forest
+    - garden
+    - sky
+    - sunshine
+    - landscape
+    - mountain
+    - sea

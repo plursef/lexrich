@@ -35,7 +35,15 @@ class FieldLexiconBuilder:
             data = yaml.safe_load(path.read_text())
         else:
             data = _simple_yaml_load(path.read_text())
-        return {name: entry.get("seeds", []) for name, entry in (data or {}).items()}
+        seeds: dict[str, list[str]] = {}
+        for name, entry in (data or {}).items():
+            if isinstance(entry, dict):
+                seeds[name] = entry.get("seeds", [])
+            elif isinstance(entry, list):
+                seeds[name] = entry
+            else:
+                continue
+        return seeds
 
     def build(self) -> dict[str, set[str]]:
         seeds = self._load_seeds()

@@ -62,7 +62,9 @@ class SimilarityGrouper:
     ) -> GroupResult:
         uf = UnionFind(vocab)
         for word in vocab:
-            vec = vectors[word]
+            vec = vectors.get(word)
+            if vec is None:
+                continue
             neighbors = index.query(vec, self.neighbor_cfg.top_k)
             for nb_word, sim in neighbors:
                 if nb_word == word:

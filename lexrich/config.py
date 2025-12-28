@@ -12,29 +12,114 @@ except ImportError:  # pragma: no cover - exercised in constrained environments
 
 
 def _simple_yaml_load(text: str) -> dict[str, Any]:
-    """Parse a tiny subset of YAML used by the project.
+    """Very small YAML subset parser used when PyYAML is unavailable.
 
-    The seeds/field config only requires top-level mappings and inline lists,
-    e.g. ``field: [a, b, c]``. This helper keeps the repository runnable even
-    when PyYAML is unavailable.
+    Supports:
+    - Top-level mappings
+    - Nested mappings via indentation (spaces)
+    - Inline lists: ``[a, b, c]``
+
+    This keeps the project runnable in constrained environments while being
+    robust enough for ``seed_fields.yaml`` and minimal config files.
     """
 
-    result: dict[str, Any] = {}
-    for line in text.splitlines():
-        line = line.strip()
-        if not line or line.startswith("#"):
-            continue
-        if ":" not in line:
-            continue
-        key, value = line.split(":", 1)
-        key = key.strip()
-        value = value.strip()
+    def _coerce_scalar(val: str) -> Any:
+        # Strip matching quotes first
+        if (val.startswith('"') and val.endswith('"')) or (val.startswith("'") and val.endswith("'")):
+            val = val[1:-1]
+
+        lower = val.lower()
+        if lower in {"true", "false"}:
+            return lower == "true"
+        if lower in {"null", "none"}:
+            return None
+
+        # Try numeric conversions
+        try:
+            return int(val)
+        except ValueError:
+            pass
+        try:
+            return float(val)
+        except ValueError:
+            pass
+        return val
+
+    def _parse_inline(value: str) -> Any:
         if value.startswith("[") and value.endswith("]"):
             items = [v.strip() for v in value[1:-1].split(",") if v.strip()]
-            result[key] = {"seeds": items}
+            return [_coerce_scalar(v) for v in items]
+        return _coerce_scalar(value)
+
+    lines = text.splitlines()
+
+    def _next_nonempty(start: int) -> tuple[int, str] | tuple[None, None]:
+        """Peek ahead to decide whether the upcoming block is a list."""
+        for idx in range(start, len(lines)):
+            candidate = lines[idx]
+            if not candidate.strip() or candidate.lstrip().startswith("#"):
+                continue
+            indent = len(candidate) - len(candidate.lstrip(" "))
+            return indent, candidate.strip()
+        return None, None
+
+    root: dict[str, Any] = {}
+    stack: list[tuple[int, Any]] = [(0, root)]
+
+    i = 0
+    while i < len(lines):
+        raw_line = lines[i]
+        if not raw_line.strip() or raw_line.lstrip().startswith("#"):
+            i += 1
+            continue
+
+        indent = len(raw_line) - len(raw_line.lstrip(" "))
+        stripped = raw_line.strip()
+
+        # List item (e.g., "- value")
+        if stripped.startswith("-"):
+            while stack and indent < stack[-1][0]:
+                stack.pop()
+            if not stack:
+                stack = [(0, root)]
+            parent = stack[-1][1]
+            if not isinstance(parent, list):
+                i += 1
+                continue
+            parent.append(_parse_inline(stripped[1:].strip()))
+            i += 1
+            continue
+
+        if ":" not in stripped:
+            i += 1
+            continue
+
+        key, value = stripped.split(":", 1)
+        key = key.strip()
+        value = value.strip()
+
+        # Find parent container according to indent
+        while stack and indent < stack[-1][0]:
+            stack.pop()
+        if not stack:
+            stack = [(0, root)]
+        parent = stack[-1][1]
+
+        if value:
+            parent[key] = _parse_inline(value)
         else:
-            result[key] = value
-    return result
+            next_indent, next_line = _next_nonempty(i + 1)
+            container: Any
+            if next_indent is not None and next_indent > indent and next_line and next_line.startswith("-"):
+                container = []
+            else:
+                container = {}
+            parent[key] = container
+            stack.append((indent + 1, container))
+
+        i += 1
+
+    return root
 
 
 @dataclass
